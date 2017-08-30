@@ -1,0 +1,10 @@
+<h1>수정 해주세용</h1>
+
+<form action='/questions/update/<%=@one_question.id%>' method="post" >
+    질문자
+    <input type="text" name="writer_new" value="<%=@one_question.name%>"/>    
+    질문내용
+    <input type="text" name="question_new" value="<%=@one_question.content%>"/>
+    <input type="submit" value="수정"/>
+    <br/>
+</form>

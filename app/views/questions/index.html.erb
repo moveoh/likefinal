@@ -1,0 +1,59 @@
+<h1 class="text-center">게시글 목록입니다</h1>
+<br>
+
+
+    <div class="col-md-2 col-md-offset-10">
+    <% if user_signed_in? %>
+      <%= link_to '로그아웃', destroy_user_session_path, method: 'delete' %>
+    <% else %>
+      <%= link_to '로그인', new_user_session_path %>
+      <%= link_to '회원가입', new_user_registration_path %>
+    <% end %>
+    </div>
+
+
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+      <hr>
+      <div class="row">
+        <div class="col-md-2"><p class="text-center">번호</p></div>
+        <div class="col-md-3"><p class="text-center">작성자</p></div>
+        <div class="col-md-3"><p class="text-center">내용</p></div>
+        <div class="col-md-3"><p class="text-center">작성시간</p></div>
+      </div>
+      <hr>
+      <%@qs.each_with_index do|q,i|%>
+      
+      <div class="row">
+        <div class="col-md-2"><p class="text-center"><%=i+1%>번 글</p></div>
+        <div class="col-md-3"><p class="text-center"><%=q.name%></p></div>
+        <div class="col-md-3"><p class="text-center"><%=q.content%></p></div>
+        <div class="col-md-3"><p class="text-center"><%=q.created_at%></p></div>
+        <div class="col-md-1"><a href='/destroy/<%=q.id%>' data-confirm="게시글을 삭제하겠습니까?">삭제</a>,<a href='/edit/<%=q.id%>'>수정</a></div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+      
+          <!--댓글 부분 -->
+          <%q.comments.each_with_index do|c,i|%>
+            <div class ="row">
+              <div class="col-md-2 col-md-offset-2"><%=i+1%>번 댓글</p></div>
+              <div class="col-md-6"><p class="text-center"><%=c.content%></p></div>
+              <div class="col-md-2"><a href='/comments/destroy/<%=c.id%>' data-method="post" data-confirm="댓글을삭제하시겠습니까?">댓글삭제</a></div>
+            </div>
+          <%end%>
+          <form class="col-md-8 col-md-offset-2" action="/comments/create/<%=q.id%>" method="post">
+              <p><input type="text" class="col-md-8" name="content" placeholder="댓글을 입력하시오"/>
+              <button type="submit" class="col-md-2 col-md-offset-2">댓글 게시</button></p>
+          </form>
+          </div>
+      </div>
+      
+      <hr>
+      <%end%>
+      
+      <div class="row">
+        <div class="col-md-6"><a href='/questions/new'>새 글 작성</a></div>
+      </div>
+      </div>
+</div>
